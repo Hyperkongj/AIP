@@ -1,0 +1,53 @@
+#!/usr/bin/env python3
+
+
+import cgi
+import cgitb
+from db import fetch_jobs
+from rating_engine import apply_ratings
+from html_formatter import render_html_results
+
+# Enable detailed traceback in the browser for debugging
+cgitb.enable()
+
+def main():
+    # Output HTTP header
+    print("Content-Type: text/html\n")
+
+    # Parse incoming form data
+    form = cgi.FieldStorage()
+
+    # Extract user inputs with defaults
+    job_type = form.getvalue("job_type", "All")
+    job_title = form.getvalue("job_title", "All")
+    specialty = form.getvalue("specialty", "All")
+    location_type = form.getvalue("location_type", "region")
+    region = form.getvalue("region", "All")
+    keyword = form.getvalue("field_keyword", "").strip()
+    company = form.getvalue("company", "").strip()
+
+    # Step 1: Query the database with user criteria
+    jobs = fetch_jobs(
+        job_type=job_type,
+        job_title=job_title,
+        specialty=specialty,
+        location_type=location_type,
+        region=region,
+        keyword=keyword,
+        company=company
+    )
+
+    # Step 2: Apply rating strategy based on relevance
+    rated_jobs = apply_ratings(
+        jobs,
+        job_type=job_type,
+        company=company,
+        keyword=keyword
+    )
+
+    # Step 3: Display results in HTML
+    html = render_html_results(rated_jobs)
+    print(html)
+
+if __name__ == "__main__":
+    main()

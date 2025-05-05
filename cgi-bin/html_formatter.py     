@@ -1,0 +1,43 @@
+# html_formatter.py
+
+def render_html_results(jobs):
+    """
+    Takes a list of job dicts and returns an HTML table.
+    """
+    if not jobs:
+        return "<h3>No jobs matched your search.</h3>"
+
+    html = [
+        "<html>",
+        "<head><title>Job Search Results</title></head>",
+        "<body bgcolor='#FFFFFF'>",
+        "<h2>Matching Job Results</h2>",
+        "<table border='1' cellpadding='5'>",
+        "<tr>",
+        "<th>Job Title</th>",
+        "<th>Company</th>",
+        "<th>Job Type</th>",
+        "<th>Specialty</th>",
+        "<th>Region</th>",
+        "<th>Rating</th>",
+        "</tr>"
+    ]
+
+    for job in jobs:
+        html.append("<tr>")
+        html.append(f"<td>{job.get('job_title', '')}</td>")
+        html.append(f"<td>{job.get('company', '')}</td>")
+        html.append(f"<td>{job.get('job_type', '')}</td>")
+        html.append(f"<td>{job.get('specialty', '')}</td>")
+        html.append(f"<td>{job.get('region', '')}</td>")
+        html.append(f"<td><b>{job.get('rating', 0)}</b></td>")
+        html.append("</tr>")
+
+    html.extend([
+        "</table>",
+        "<br><a href='/~wp01/demo/proc/unix-version/html/job_search.html'>Back to Search</a>",
+        "</body>",
+        "</html>"
+    ])
+
+    return "\n".join(html)

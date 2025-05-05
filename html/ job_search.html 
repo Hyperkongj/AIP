@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Search Form</title>
+</head>
+<body bgcolor="#FFFFFF">
+    <h2>Job Search Portal</h2>
+
+    <form method="POST" action="/cgi-bin/jobsearch.py">
+        <label for="job_type">Job Type:</label>
+        <select name="job_type" id="job_type">
+            <option>All</option>
+            <option>Regular</option>
+            <option>Entry Level</option>
+            <option>Intern</option>
+            <option>Part Time</option>
+        </select><br><br>
+
+        <label for="job_title">Job Title:</label>
+        <select name="job_title" id="job_title">
+            <option>All</option>
+            <option>Analyst</option>
+            <option>Developer</option>
+            <option>Manager</option>
+            <option>Engineer</option>
+        </select><br><br>
+
+        <label for="specialty">Specialty:</label>
+        <select name="specialty" id="specialty">
+            <option>All</option>
+            <option>Database Development</option>
+            <option>Web Development</option>
+            <option>System Analysis</option>
+            <option>UI/UX</option>
+        </select><br><br>
+
+        <label for="location_type">Location Type:</label>
+        <select name="location_type" id="location_type">
+            <option value="region">Region</option>
+            <option value="state">State</option>
+            <option value="city">City</option>
+        </select><br><br>
+
+        <label for="region">Location (Region/State/City):</label>
+        <input type="text" name="region" id="region"><br><br>
+
+        <label for="company">Company:</label>
+        <input type="text" name="company" id="company"><br><br>
+
+        <label for="field_keyword">Keyword:</label>
+        <input type="text" name="field_keyword" id="field_keyword"><br><br>
+
+        <input type="submit" value="Search Jobs">
+    </form>
+</body>
+</html>

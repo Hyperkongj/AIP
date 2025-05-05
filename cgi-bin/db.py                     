@@ -1,0 +1,53 @@
+import cx_Oracle
+import os
+
+# Optional: If running locally, load Oracle credentials from environment variables
+DB_USER = os.getenv("ORACLE_USER", "your_username")
+DB_PASS = os.getenv("ORACLE_PASS", "your_password")
+DB_DSN = os.getenv("ORACLE_DSN", "your_oracle_host/servicename")
+
+def fetch_jobs(job_type, job_title, specialty, location_type, region, keyword, company):
+    """
+    Connects to the Oracle DB and returns job records based on basic filtering.
+    Returns a list of job dicts (one per row).
+    """
+    connection = None
+    jobs = []
+    try:
+        connection = cx_Oracle.connect(DB_USER, DB_PASS, DB_DSN)
+        cursor = connection.cursor()
+
+        # Build SQL query dynamically
+        query = "SELECT * FROM job WHERE 1=1"
+        params = {}
+
+        if job_title.lower() != "all":
+            query += " AND LOWER(job_title) = :job_title"
+            params['job_title'] = job_title.lower()
+
+        if specialty.lower() != "all":
+            query += " AND LOWER(specialty) = :specialty"
+            params['specialty'] = specialty.lower()
+
+        if keyword:
+            query += " AND (LOWER(job_title) LIKE :kw OR LOWER(description) LIKE :kw OR LOWER(specialty) LIKE :kw)"
+            params['kw'] = f"%{keyword.lower()}%"
+
+        if company:
+            query += " AND LOWER(company) LIKE :company"
+            params['company'] = f"%{company.lower()}%"
+
+        cursor.execute(query, params)
+        columns = [col[0].lower() for col in cursor.description]
+
+        for row in cursor:
+            jobs.append(dict(zip(columns, row)))
+
+    except cx_Oracle.DatabaseError as e:
+        print("<p>Error accessing database:</p>")
+        print(f"<pre>{str(e)}</pre>")
+    finally:
+        if connection:
+            connection.close()
+
+    return jobs

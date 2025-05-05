@@ -1,0 +1,18 @@
+# utils.py
+
+def normalize_text(text):
+    """
+    Normalize text by lowering case and stripping whitespace.
+    """
+    return text.lower().strip() if text else ""
+
+# Mapping of similar companies for fuzzy company-based rating
+similar_companies = {
+    "google": ["microsoft", "meta", "amazon", "apple", "netflix"],
+    "meta": ["google", "snap", "tiktok"],
+    "amazon": ["ebay", "walmart", "target"],
+    "microsoft": ["google", "oracle", "ibm"],
+    "oracle": ["microsoft", "ibm", "sap"],
+    # Add more as needed
+}
+s
