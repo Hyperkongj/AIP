@@ -1,6 +1,6 @@
 # JobMatchPro
 
-*Connecting talent with opportunity through intelligent job matching*
+*Connecting talent with opportunity thro ugh intelligent job matching*
 
 ![JobMatchPro Banner](/api/placeholder/900/300)
 
